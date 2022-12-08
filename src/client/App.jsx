@@ -1,3 +1,4 @@
+import { token } from 'morgan';
 import { useEffect, useState } from 'react';
 import './App.css';
 import MovieForm from './components/MovieForm';
@@ -47,14 +48,24 @@ function App() {
     // const tester = localStorage.getItem(("token"))
     // console.log("this ia a test for the token" + " " + tester)
 
-    } 
-    
-    )
-    
-    
+    }) 
   };
   
   const handleCreateMovie = async ({ title, description, runtimeMins }) => {
+    const token = window.localStorage.getItem(("token"))
+
+    let bearer = "bearer" + token;
+
+    fetch('http://localhost:4000/user/movie', {
+      method: 'POST',
+      headers: {
+        'Authorization' : bearer,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify ({title, description, runtimeMins})
+    })
+
+
     
   }
 
