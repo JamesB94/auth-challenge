@@ -15,10 +15,42 @@ function App() {
   }, []);
 
   const handleRegister = async ({ username, password }) => {
-    
+    //console.log(username, password)
+
+    fetch('http://localhost:4000/user/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify ({username, password})
+    })
+    .then ((res) => res.json())
+    .then ((data) => console.log(data))
   };
 
   const handleLogin = async ({ username, password }) => {
+    
+    fetch('http://localhost:4000/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify ({username, password})
+    })
+    .then ((res) => res.json())
+    .then ((data) => {
+
+    console.log(data),
+    
+    window.localStorage.setItem("token", data.data)
+
+    // const tester = localStorage.getItem(("token"))
+    // console.log("this ia a test for the token" + " " + tester)
+
+    } 
+    
+    )
+    
     
   };
   
