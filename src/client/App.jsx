@@ -1,4 +1,3 @@
-import { token } from 'morgan';
 import { useEffect, useState } from 'react';
 import './App.css';
 import MovieForm from './components/MovieForm';
@@ -42,11 +41,12 @@ function App() {
     .then ((data) => {
 
     console.log(data),
+    //console.log('this is a second test of data ', data.data)
     
     window.localStorage.setItem("token", data.data)
 
-    // const tester = localStorage.getItem(("token"))
-    // console.log("this ia a test for the token" + " " + tester)
+    //  const tester = localStorage.getItem(("token"))
+    //  console.log("this ia a test for the token" + " " + tester)
 
     }) 
   };
@@ -54,9 +54,11 @@ function App() {
   const handleCreateMovie = async ({ title, description, runtimeMins }) => {
     const token = window.localStorage.getItem(("token"))
 
-    let bearer = "bearer" + token;
+    let bearer = "bearer" + ' ' + token;
 
-    fetch('http://localhost:4000/user/movie', {
+    // console.log('this is the bearer token = ', bearer)
+
+   fetch('http://localhost:4000/movie', {
       method: 'POST',
       headers: {
         'Authorization' : bearer,
@@ -65,7 +67,16 @@ function App() {
       body: JSON.stringify ({title, description, runtimeMins})
     })
 
+    .then((res) => res.json())
+      .then((data) => {
+        setMovies([...movies, data]);
+      })
 
+    // const data = await res.json()
+
+    // const moviesAdded = movies.concat([data.data])
+
+    // setMovies(moviesAdded)
     
   }
 
